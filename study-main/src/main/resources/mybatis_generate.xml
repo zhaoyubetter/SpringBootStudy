@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="sqliteDB" targetRuntime="MyBatis3">
+        <!-- 插件配置 -->
+        <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin"/>
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>
+
+        <!-- 去除自动生成的注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- jdbc 配置 -->
+        <jdbcConnection driverClass="org.sqlite.JDBC"
+                        connectionURL="jdbc:sqlite:/Users/better/Documents/github/SpringBootStudy/db/example.db"
+                        userId=""
+                        password="">
+        </jdbcConnection>
+
+        <!--生成实体类的位置以及包的名字-->
+        <javaModelGenerator targetPackage="vip.sonar.springboot.study.domain"
+                            targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--生成映射文件存放位置-->
+        <sqlMapGenerator targetPackage="geektime.spring.data.mybatis.mapper"
+                         targetProject="./src/main/resources/mapper">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!--生成Dao类存放位置,mapper接口生成的位置-->
+        <javaClientGenerator type="MIXEDMAPPER"
+                             targetPackage="vip.sonar.springboot.study.repository"
+                             targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 配置要生成的表结构 -->
+        <table tableName="t_coffee" domainObjectName="Coffee">
+            <generatedKey column="id" sqlStatement="CALL IDENTITY()" identity="true"/>
+            <columnOverride column="price" javaType="org.joda.money.Money" jdbcType="BIGINT"
+                            typeHandler="vip.sonar.springboot.study.typehandler.MoneyTypeHandler"/>
+        </table>
+    </context>
+</generatorConfiguration>
