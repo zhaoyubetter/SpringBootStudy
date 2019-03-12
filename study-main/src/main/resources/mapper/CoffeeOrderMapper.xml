@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.sonar.springboot.study.repository.CoffeeOrderRepository">
+
+    <resultMap id="BaseResultMap" type="vip.sonar.springboot.study.domain.CoffeeOrder">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="create_time" jdbcType="INTEGER" property="createTime"/>
+        <result column="update_time" jdbcType="INTEGER" property="updateTime"/>
+        <result column="customer" jdbcType="VARCHAR" property="customer"/>
+        <result column="state" property="state" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <!-- 关联查询 -->
+        <collection property="items" ofType="vip.sonar.springboot.study.domain.Coffee"
+                    select="vip.sonar.springboot.study.repository.CoffeeRepository.findCoffeeByOrderId"
+                    column="id" fetchType="eager"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, customer, state
+    </sql>
+
+    <!-- 保存coffee订单 <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.jd.innovation.appanalyzer.entity.ApkInfo">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="vip.sonar.springboot.study.domain.CoffeeOrder">
+        insert into t_coffee_order (create_time, update_time, customer, state)
+        values (#{createTime}, #{updateTime},
+        #{customer},
+        #{state,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler, javaType=vip.sonar.springboot.study.domain.OrderState} )
+    </insert>-->
+
+    <!-- 保存关系 -->
+    <insert id="saveCoffeeOrderRelation">
+        insert into t_relation_coffee_order(coffee_id, coffee_order_id) values
+        <foreach item="item"  collection="coffees" separator="," >
+            (
+            #{item.id}, #{order.id}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 查询订单 -->
+    <select id="queryOrderByOrderId" resultMap="BaseResultMap">
+        select * from t_coffee_order where id = #{id}
+    </select>
+</mapper>

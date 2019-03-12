@@ -9,7 +9,7 @@ import vip.sonar.springboot.study.domain.Coffee
  * @date 2019-03-10 20:45
  */
 @Mapper
-interface CoffeeMapper {
+interface CoffeeRepository {
 
     @Insert("""
         INSERT INTO t_coffee (name, price, create_time, update_time) VALUES
@@ -29,5 +29,15 @@ interface CoffeeMapper {
         // mybatis.configuration.map-underscore-to-camel-case=true
     ]
     )
-    fun findById(@Param("id") id: Long) : Coffee?
+    fun findById(@Param("id") id: Long): Coffee?
+
+    @Select("""
+        select * from t_coffee where name = #{name}
+    """)
+    fun findCoffeeByName(@Param("name") name: String): Coffee?
+
+    @Select("""
+         select * from t_coffee a where id in  (select coffee_id from t_relation_coffee_order t where t.coffee_order_id = #{orderId})
+    """)
+    fun findCoffeeByOrderId(@Param("orderId") orderId: Long): List<Coffee>
 }

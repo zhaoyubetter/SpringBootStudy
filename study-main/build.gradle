@@ -29,6 +29,9 @@ dependencies {
     implementation 'org.joda:joda-money:1.0.1'
     // 自定义类型映射
     implementation 'org.jadira.usertype:usertype.core:6.0.1.GA'
+    // pageHelper
+    implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.2.10'
+
 
     /*Junit 测试*/
     testImplementation('org.springframework.boot:spring-boot-starter-test')

@@ -20,13 +20,11 @@ data class Coffee(
 
 // t_coffee_order 咖啡订单表
 // 一个订单可能有多个coffee，多个 coffee，管理一个订单；
-class CoffeeOrder(
+open class CoffeeOrder(
         var customer: String = "",
-        var state: Int = 0) : Base() {
-
-    // 多对多关系
-    var items = mutableListOf<Coffee>()
-}
+        var state: OrderState = OrderState.INIT,
+        // 多对多关系
+        var items:List<Coffee>? = mutableListOf()) : Base()
 
 // relation 多对多
 class CoffeeOrderRelation(

@@ -20,7 +20,7 @@ class StudyApplication : ApplicationRunner {
      * run
      */
     override fun run(args: ApplicationArguments?) {
-        mybatisGenerate()
+//        mybatisGenerate()
     }
 
     // 生成mybatis信息
