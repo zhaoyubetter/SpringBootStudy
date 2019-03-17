@@ -34,7 +34,7 @@ class CoffeeController {
     lateinit var coffeeService: CoffeeService
 
     @RequestMapping(path = ["/"], method = [RequestMethod.GET],
-            params = ["!name"],
+            params = ["!name"],  // TODO: !name 此个配置无效
             produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     @ResponseBody
     fun getAll(@RequestHeader("Accept") accept: String): List<Coffee> {
@@ -48,20 +48,21 @@ class CoffeeController {
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     fun addCoffee(@Valid newCoffeeRequest: NewCoffeeRequest, result: BindingResult): Coffee? {
-        if (result.hasErrors()) {
-            println(result)  // 输出错误
-            return null  // 返回空
-        }
-        return coffeeService.saveCoffee(newCoffeeRequest.name, newCoffeeRequest.price)
+    if (result.hasErrors()) {
+    println(result)  // 输出错误
+    return null  // 返回空
+    }
+    return coffeeService.saveCoffee(newCoffeeRequest.name, newCoffeeRequest.price)
     }
      */
 
-//    @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
-//    @ResponseBody
-//    @ResponseStatus(HttpStatus.CREATED)
-//    fun addCoffee2(@Valid newCoffeeRequest: NewCoffeeRequest): Coffee? {
-//        return coffeeService.saveCoffee(newCoffeeRequest.name, newCoffeeRequest.price!!)
-//    }
+    @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    fun addCoffee2(@Valid newCoffeeRequest: NewCoffeeRequest): Coffee? {
+        return coffeeService.saveCoffee(newCoffeeRequest.name, newCoffeeRequest.price!!)
+    }
+
 
     /**
      * 上传单个文件
@@ -87,5 +88,20 @@ class CoffeeController {
         }
 
         return coffees
+    }
+
+    ///////  指定JSON格式 ////////
+    @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    fun addJsonCoffeeWithoutBindingResult(@Valid @RequestBody
+                                          newCoffeeRequest: NewCoffeeRequest): Coffee? {
+        return coffeeService.saveCoffee(newCoffeeRequest.name, newCoffeeRequest.price!!)
+    }
+
+    @GetMapping(path = ["/{name}"])
+    @ResponseBody
+    fun getByName(@PathVariable("name") name: String): List<Coffee>? {
+        return coffeeService.getCoffeeByName(name)
     }
 }
