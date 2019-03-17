@@ -27,7 +27,7 @@ class CoffeeOrderService {
 
     val log = LoggerFactory.getLogger("CoffeeOrderService")
 
-    fun createOrder(customer: String, vararg coffees: Coffee) {
+    fun createOrder(customer: String, vararg coffees: Coffee):CoffeeOrder {
         // 1. create order
         val order = CoffeeOrder(
                 customer = customer,
@@ -38,6 +38,7 @@ class CoffeeOrderService {
         coffeeOrderRepository.saveCoffeeOrderRelation(order, *coffees)
 
         log.info("New Order: {}", order)
+        return order
     }
 
     fun updateOrder(order:CoffeeOrder, state:OrderState) {

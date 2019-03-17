@@ -32,12 +32,22 @@ interface CoffeeRepository {
     fun findById(@Param("id") id: Long): Coffee?
 
     @Select("""
-        select * from t_coffee where name = #{name}
+        <script>
+        select * from t_coffee where name in
+            <foreach item='item' index='index' collection='names' open='(' separator=',' close=')'>
+             #{item}
+           </foreach>
+        </script>
     """)
-    fun findCoffeeByName(@Param("name") name: String): Coffee?
+    fun findCoffeeByName(@Param("names") vararg names: String): List<Coffee>
 
     @Select("""
          select * from t_coffee a where id in  (select coffee_id from t_relation_coffee_order t where t.coffee_order_id = #{orderId})
     """)
     fun findCoffeeByOrderId(@Param("orderId") orderId: Long): List<Coffee>
+
+    @Select("""
+        select * from t_coffee
+    """)
+    fun queryAll(): List<Coffee>
 }

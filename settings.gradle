@@ -1,2 +1,2 @@
-include ':study-main'
+include ':study-main', ':mongo-demo'
 

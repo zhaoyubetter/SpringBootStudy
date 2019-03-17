@@ -1,5 +1,6 @@
 package vip.sonar.springboot.study.service
 
+import org.joda.money.Money
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -19,9 +20,19 @@ class CoffeeService {
 
     val log = LoggerFactory.getLogger(CoffeeService@ this.javaClass)
 
-    fun getCoffeeByName(name: String): Coffee? {
-        val coffee = coffeeRepository.findCoffeeByName(name)
+    fun getCoffeeByName(vararg names: String): List<Coffee> {
+        val coffee = coffeeRepository.findCoffeeByName(*names)
         log.info("Coffee Found: {}", coffee)
         return coffee
     }
+
+    fun saveCoffee(name: String, price: Money): Coffee {
+        return Coffee(name = name, price = price).apply {
+            coffeeRepository.save(this)
+        }
+    }
+
+    fun getAll(): List<Coffee> = coffeeRepository.queryAll()
+
+
 }
