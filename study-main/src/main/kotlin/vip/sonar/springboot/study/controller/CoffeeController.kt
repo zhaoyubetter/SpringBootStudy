@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import vip.sonar.springboot.study.controller.request.NewCoffeeRequest
 import vip.sonar.springboot.study.domain.Coffee
+import vip.sonar.springboot.study.exception.FormValidationException
 import vip.sonar.springboot.study.service.CoffeeService
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.Error
 import javax.validation.Valid
+import javax.validation.ValidationException
 
 /**
  * @description: CoffeeController
@@ -43,26 +45,27 @@ class CoffeeController {
 
     /**
      * 自己处理错误
-
-    @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+     */
+    @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     fun addCoffee(@Valid newCoffeeRequest: NewCoffeeRequest, result: BindingResult): Coffee? {
-    if (result.hasErrors()) {
-    println(result)  // 输出错误
-    return null  // 返回空
+        if (result.hasErrors()) {
+            throw FormValidationException(result)
+        }
+        return coffeeService.saveCoffee(newCoffeeRequest.name, newCoffeeRequest.price)
     }
-    return coffeeService.saveCoffee(newCoffeeRequest.name, newCoffeeRequest.price)
-    }
-     */
+
 
     @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    fun addCoffee2(@Valid newCoffeeRequest: NewCoffeeRequest): Coffee? {
+    fun addCoffee2(@Valid newCoffeeRequest: NewCoffeeRequest, result: BindingResult): Coffee? {
+        if (result.hasErrors()) {
+            throw ValidationException(result.toString())
+        }
         return coffeeService.saveCoffee(newCoffeeRequest.name, newCoffeeRequest.price!!)
     }
-
 
     /**
      * 上传单个文件
