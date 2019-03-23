@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import vip.sonar.springboot.study.controller.PerformanceInteceptor
 import java.util.ArrayList
+import java.util.*
 
 
 // mybatis 扫描注解（值为包路径）
