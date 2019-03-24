@@ -2,9 +2,10 @@
 
 Kotlin + SpringBoot + Gradle
 
-## tag 
+## tag
 
 # 1. Mybatis 框架
+
 ## 1.1 插件 pageHelper
 
 参考github
@@ -13,8 +14,8 @@ Kotlin + SpringBoot + Gradle
 
 ### 1.4.1 多模块构建 mybatis-generator 不生成代码？
 
-
 需配置成
+
 ```xml
 <!--生成实体类的位置以及包的名字, 注意 targetProject 路径问题，加上项目名，即可-->
 <javaModelGenerator targetPackage="vip.sonar.springboot.study.domain"
@@ -29,7 +30,7 @@ targetProject="study-main/src/main/java">
 
 **环境准备：**
 
-先通过 docker 下载 `mongo` 镜像 
+先通过 docker 下载 `mongo` 镜像
 
 ```
 docker pull mongo
@@ -192,6 +193,7 @@ spring.resources.static-locations=classpath:/META-INF/resources/,classpath:/reso
 spring.resources.cache.cachecontrol.max-age=
 spring.resources.cache.cachecontrol.no-cache=true/false
 spring.resources.cache.cachecontrol.s-max-age=
+
 ```
 
 > 一般使用`spring`拦截器进行缓存设置
@@ -217,6 +219,7 @@ spring.resources.cache.cachecontrol.s-max-age=
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)  // 指定响应码
   @ResponseBody
   fun addCoffee2()
+
   ```
 
 - ExceptionHandlerExceptionResolver
@@ -245,9 +248,10 @@ spring.resources.cache.cachecontrol.s-max-age=
           return ResponseModel.fail(
             MessageCodeEnum.CODE_BAD_REQUEST.code, exception.message ?: "")
   }
+
   ```
 
-  
+
 
 添加位置：
 
@@ -309,5 +313,6 @@ class StudyApplication : WebMvcConfigurer {
                .addPathPatterns("/coffee/**").addPathPatterns("/order/**")
     }
 }
+
 ```
 
