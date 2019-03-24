@@ -2,7 +2,7 @@
 
 **参考与示例来源**
 
-- [极客时间-丁雪丰老师Spring系列](!https://time.geekbang.org/course/intro/156)
+- [极客时间之丁雪丰老师Spring系列](!https://time.geekbang.org/course/intro/156)
 
 **示例说明**
 
