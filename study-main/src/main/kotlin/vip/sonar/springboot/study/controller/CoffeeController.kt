@@ -43,9 +43,15 @@ class CoffeeController {
         return coffeeService.getAll()
     }
 
+    @GetMapping("/all",  produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    @ResponseBody
+    fun getAllCoffee() : List<Coffee>{
+        return coffeeService.getAll()
+    }
+
     /**
      * 自己处理错误
-     */
+
     @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
@@ -54,7 +60,7 @@ class CoffeeController {
             throw FormValidationException(result)
         }
         return coffeeService.saveCoffee(newCoffeeRequest.name, newCoffeeRequest.price)
-    }
+    }*/
 
 
     @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
@@ -94,6 +100,7 @@ class CoffeeController {
     }
 
     ///////  指定JSON格式 ////////
+
     @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
